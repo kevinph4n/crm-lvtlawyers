@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import { formatDate, getPublishedPosts } from '../../lib/blog';
+
+const posts = await getPublishedPosts();
+---
+
+<Base title="Kiến thức pháp lý" description="Quy định mới và những lưu ý pháp lý thường gặp, do luật sư Công ty Luật LVT biên soạn.">
+  <section class="bg-kraft px-4 pt-10 pb-16 md:px-8 md:pt-14">
+    <div class="mx-auto max-w-3xl">
+      <h1 class="text-[2.4rem] font-medium md:text-[3.2rem]">Kiến thức pháp lý</h1>
+      <p class="mt-4 text-[1.05rem] text-ink-soft">Quy định mới và những lưu ý pháp lý thường gặp, viết bởi luật sư.</p>
+    </div>
+  </section>
+  <section class="px-4 py-16 md:px-8">
+    <div class="mx-auto max-w-3xl">
+      {
+        posts.length > 0 ? (
+          <ul class="divide-y divide-line">
+            {posts.map((post) => (
+              <li class="py-8 first:pt-0">
+                <time datetime={post.data.pubDate.toISOString()} class="text-sm text-ink-soft tabular-nums">
+                  {formatDate(post.data.pubDate)}
+                  {post.data.draft && <span class="ml-2 rounded-sm bg-seal px-1.5 py-0.5 text-xs text-paper">Bản nháp</span>}
+                </time>
+                <h2 class="mt-2 text-2xl font-medium">
+                  <a href={`/kien-thuc/${post.id}/`} class="no-underline hover:underline">
+                    {post.data.title}
+                  </a>
+                </h2>
+                <p class="mt-2 text-ink-soft">{post.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="text-ink-soft">Bài viết đang được luật sư biên soạn và sẽ sớm được đăng tại đây.</p>
+        )
+      }
+    </div>
+  </section>
+</Base>

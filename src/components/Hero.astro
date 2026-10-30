@@ -1,0 +1,38 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Slot from './Slot.astro';
+import heroImage from '../../static/img/congtyluatlvt_1.jpg';
+import { site } from '../data/site';
+---
+<section class="relative isolate flex min-h-[38rem] items-end overflow-hidden bg-ink text-paper md:min-h-[44rem]">
+  <Picture
+    src={heroImage}
+    formats={['avif', 'webp']}
+    widths={[480, 890]}
+    sizes="100vw"
+    alt="Luật sư Công ty Luật LVT trao đổi hồ sơ tại phiên tòa"
+    loading="eager"
+    fetchpriority="high"
+    class="absolute inset-0 -z-10 size-full object-cover object-[60%_20%]"
+  />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/75 to-ink/20 md:bg-gradient-to-r md:from-ink/95 md:via-ink/70 md:to-ink/5"></div>
+
+  <div class="mx-auto w-full max-w-6xl px-4 pt-32 pb-12 md:px-8 md:pb-20">
+    <p class="mb-5 text-[0.95rem] text-ink-on-dark">{site.name}</p>
+    <h1 class="max-w-[15ch] text-[2.4rem] font-medium md:text-[3.6rem]">{site.slogan}</h1>
+    <p class="mt-5 max-w-[46ch] text-[1.05rem] text-ink-on-dark">
+      Đồng hành cùng đội ngũ luật sư chuyên nghiệp của LVT Lawyers, với hơn <strong class="font-semibold text-paper"><Slot value={site.yearsOfExperience} /> năm</strong> kinh nghiệm hành nghề luật.
+    </p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <a href="#lien-he" class="btn btn-seal">
+        Nhận tư vấn miễn phí
+        <Icon name="arrow-right" class="size-4" />
+      </a>
+      <a href="#lien-he" class="btn btn-ghost-light">
+        <Icon name="calendar" class="size-4" />
+        Đặt lịch hẹn ngay
+      </a>
+    </div>
+  </div>
+</section>

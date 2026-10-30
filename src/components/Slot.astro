@@ -1,0 +1,12 @@
+---
+// Renders a data value; "[...]" placeholders get highlighted so missing content is obvious.
+import { isPlaceholder } from '../data/site';
+
+interface Props {
+  value: string;
+}
+
+const { value } = Astro.props;
+---
+
+{isPlaceholder(value) ? <span class="ph-slot">{value}</span> : value}

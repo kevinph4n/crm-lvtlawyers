@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import { site, telHref } from '../data/site';
+---
+
+<div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-ink-soft/40 bg-ink md:hidden">
+  <a href={telHref(site.hotline)} class="flex h-16 items-center justify-center gap-2 bg-seal font-medium text-paper no-underline active:bg-seal-deep">
+    <Icon name="phone" class="size-5" />
+    Gọi luật sư
+  </a>
+  <a
+    href={site.zaloUrl || '/#lien-he'}
+    target={site.zaloUrl ? '_blank' : undefined}
+    rel={site.zaloUrl ? 'noopener' : undefined}
+    class="flex h-16 items-center justify-center gap-2 font-medium text-paper no-underline active:bg-ink-soft"
+  >
+    <Icon name="message" class="size-5" />
+    {site.zaloUrl ? 'Nhắn Zalo' : 'Gửi yêu cầu'}
+  </a>
+</div>

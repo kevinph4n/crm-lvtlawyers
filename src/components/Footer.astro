@@ -1,0 +1,22 @@
+---
+import SealMark from './SealMark.astro';
+import Slot from './Slot.astro';
+import { site, telHref } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-ink-soft/40 bg-ink px-4 py-12 text-ink-on-dark md:px-8">
+  <div class="mx-auto flex max-w-6xl flex-col gap-8 md:flex-row md:items-start md:justify-between">
+    <div class="flex items-center gap-3 text-paper">
+      <SealMark class="size-10 text-kraft-deep" />
+      <span class="font-display text-lg font-semibold">{site.name}</span>
+    </div>
+    <ul class="grid gap-2 text-[0.95rem]">
+      <li><Slot value={site.address} /></li>
+      <li>Hotline: <a href={telHref(site.hotline)} class="text-paper"><Slot value={site.hotline} /></a></li>
+      <li>Email: <a href={`mailto:${site.email}`} class="text-paper"><Slot value={site.email} /></a></li>
+    </ul>
+  </div>
+  <p class="mx-auto mt-10 max-w-6xl text-sm">© {year} {site.name}. Thông tin trên website mang tính tham khảo, không thay thế ý kiến tư vấn cho vụ việc cụ thể.</p>
+</footer>

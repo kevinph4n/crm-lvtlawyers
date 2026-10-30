@@ -1,0 +1,81 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { formatDate, getPublishedPosts } from '../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={post.data.title} description={post.data.description}>
+  <article class="px-4 py-12 md:px-8 md:py-16">
+    <div class="mx-auto max-w-[68ch]">
+      <a href="/kien-thuc/" class="text-[0.95rem] text-ink-soft no-underline hover:underline">← Kiến thức pháp lý</a>
+      <h1 class="mt-6 text-[2.1rem] font-medium md:text-[2.8rem]">{post.data.title}</h1>
+      <time datetime={post.data.pubDate.toISOString()} class="mt-4 block text-sm text-ink-soft tabular-nums">
+        {formatDate(post.data.pubDate)}
+      </time>
+      <div class="prose-legal mt-10">
+        <Content />
+      </div>
+      <aside class="mt-14 rounded-lg bg-kraft p-6">
+        <p class="font-display text-xl font-medium">Vụ việc của bạn có tình tiết riêng?</p>
+        <p class="mt-2 text-ink-soft">Gửi thông tin để luật sư xem xét và tư vấn ban đầu miễn phí.</p>
+        <a href="/#lien-he" class="btn btn-seal mt-5">
+          Nhận tư vấn miễn phí
+          <Icon name="arrow-right" class="size-4" />
+        </a>
+      </aside>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .prose-legal :global(h2) {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-legal :global(h3) {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-legal :global(p),
+  .prose-legal :global(ul),
+  .prose-legal :global(ol) {
+    margin-top: 1rem;
+  }
+  .prose-legal :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose-legal :global(ol) {
+    list-style: decimal;
+    padding-left: 1.25rem;
+  }
+  .prose-legal :global(a) {
+    color: var(--color-seal);
+    text-decoration: underline;
+  }
+  .prose-legal :global(code) {
+    background: var(--color-kraft);
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.9em;
+  }
+  .prose-legal :global(blockquote) {
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-kraft);
+    border-radius: 0.5rem;
+  }
+</style>

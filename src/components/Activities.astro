@@ -1,0 +1,65 @@
+---
+import { Image } from 'astro:assets';
+import Slot from './Slot.astro';
+import mockTrialDrugs from '../../static/img/congtyluatlvt_2.jpg';
+import mockTrialTraffic from '../../static/img/congtyluatlvt_3.jpg';
+import ceremony from '../../static/img/congtyluatlvt_6.jpg';
+import arbitrationClass from '../../static/img/congtyluatlvt_7.jpg';
+
+// Captions only state what is readable on the banners in each photo.
+const items = [
+  {
+    image: mockTrialDrugs,
+    caption: 'Phiên tòa giả định chuyên đề “Phòng chống ma túy và tác hại thuốc lá”',
+    meta: 'Tân Phú, 16/11/2024',
+  },
+  {
+    image: arbitrationClass,
+    caption: 'Lớp tập huấn pháp luật về trọng tài',
+    meta: 'Đồng Nai, 28/4/2022',
+  },
+  {
+    image: mockTrialTraffic,
+    caption: 'Phiên tòa giả định xét xử vụ án “Vi phạm luật giao thông đường bộ”',
+    meta: 'Tân Phú',
+  },
+  {
+    image: ceremony,
+    caption: '[Tên sự kiện / giải thưởng]',
+    meta: '[Địa điểm, ngày]',
+  },
+];
+---
+
+<section aria-labelledby="hoat-dong-title" class="bg-paper px-4 py-20 md:px-8 md:py-28">
+  <div class="mx-auto max-w-6xl">
+    <div class="max-w-2xl">
+      <h2 id="hoat-dong-title" class="section-title">Hoạt động phổ biến pháp luật</h2>
+      <p class="mt-4 text-[1.05rem] text-ink-soft">
+        Luật sư của chúng tôi tham gia các phiên tòa giả định và lớp tập huấn tại địa phương.
+      </p>
+    </div>
+
+    <ul class="mt-12 grid gap-6 sm:grid-cols-2">
+      {
+        items.map((item) => (
+          <li>
+            <figure>
+              <Image
+                src={item.image}
+                alt={item.caption.startsWith('[') ? 'Hoạt động của Công ty Luật LVT' : item.caption}
+                widths={[480, 760]}
+                sizes="(min-width: 640px) 50vw, 100vw"
+                class="aspect-[3/2] w-full rounded-lg object-cover"
+              />
+              <figcaption class="mt-3">
+                <span class="block font-medium"><Slot value={item.caption} /></span>
+                <span class="mt-0.5 block text-sm text-ink-soft"><Slot value={item.meta} /></span>
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

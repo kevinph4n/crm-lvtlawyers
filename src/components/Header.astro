@@ -1,0 +1,74 @@
+---
+import Icon from './Icon.astro';
+import SealMark from './SealMark.astro';
+import { site } from '../data/site';
+
+interface Props {
+  overlay?: boolean;
+}
+
+const { overlay = false } = Astro.props;
+
+const links = [
+  { href: '/#linh-vuc', label: 'Lĩnh vực' },
+  { href: '/#luat-su', label: 'Luật sư' },
+  { href: '/kien-thuc/', label: 'Kiến thức pháp lý' },
+  { href: '/#lien-he', label: 'Liên hệ' },
+];
+---
+
+<header class:list={['z-30 px-4 pt-4 md:px-8 md:pt-6', overlay ? 'absolute inset-x-0 top-0' : 'relative bg-kraft pb-4 md:pb-6']}>
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-lg bg-paper py-2.5 pr-2.5 pl-4 shadow-[0_6px_24px_-12px_rgb(40_30_20/0.35)]">
+    <a href="/" class="flex items-center gap-2.5 text-ink no-underline">
+      <SealMark class="size-9 text-seal" />
+      <span class="font-display text-lg font-semibold tracking-tight">{site.shortName}</span>
+    </a>
+
+    <nav aria-label="Điều hướng chính" class="hidden md:block">
+      <ul class="flex items-center gap-1 text-[0.95rem]">
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href} class="rounded-md px-3 py-2 text-ink-soft no-underline transition-colors hover:bg-kraft hover:text-ink">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a href="/#lien-he" class="btn btn-ink hidden py-2.5 md:inline-flex">Nhận tư vấn miễn phí</a>
+
+    <details class="group md:hidden">
+      <summary class="flex size-11 cursor-pointer list-none items-center justify-center rounded-md text-ink hover:bg-kraft [&::-webkit-details-marker]:hidden">
+        <span class="sr-only">Mở menu</span>
+        <Icon name="menu" class="size-6 group-open:hidden" />
+        <Icon name="close" class="hidden size-6 group-open:block" />
+      </summary>
+      <nav aria-label="Điều hướng di động" class="absolute inset-x-4 top-[4.75rem] rounded-lg bg-paper p-3 shadow-[0_12px_32px_-12px_rgb(40_30_20/0.45)]">
+        <ul class="flex flex-col">
+          {
+            links.map((link) => (
+              <li>
+                <a href={link.href} class="block rounded-md px-3 py-3 text-ink no-underline hover:bg-kraft">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a href="/#lien-he" class="btn btn-seal mt-2 w-full">Nhận tư vấn miễn phí</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  // Close the mobile menu after picking an in-page link.
+  document.querySelectorAll<HTMLDetailsElement>('header details').forEach((menu) => {
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) menu.open = false;
+    });
+  });
+</script>

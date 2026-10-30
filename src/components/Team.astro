@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import Slot from './Slot.astro';
+import { lawyers } from '../data/lawyers';
+
+// Every image in static/img/luat-su/, keyed by file name, so data only needs `photo: 'name.jpg'`.
+const photoModules = import.meta.glob<{ default: ImageMetadata }>('/static/img/luat-su/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+});
+const photos = new Map(Object.entries(photoModules).map(([path, mod]) => [path.split('/').pop(), mod.default]));
+---
+
+<section id="luat-su" class="bg-kraft px-4 py-20 md:px-8 md:py-28">
+  <div class="mx-auto max-w-6xl">
+    <div class="max-w-2xl">
+      <h2 class="section-title">ĐỘI NGŨ LUẬT SƯ</h2>
+      <p class="mt-4 text-[1.05rem] text-ink-soft">
+      </p>
+    </div>
+
+    <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        lawyers.map((lawyer) => {
+          const photo = lawyer.photo ? photos.get(lawyer.photo) : undefined;
+          return (
+            <li class="flex flex-col overflow-hidden rounded-lg bg-paper">
+              {photo ? (
+                <Image src={photo} alt={`Chân dung ${lawyer.name}`} widths={[400, 640]} sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" class="aspect-[4/5] w-full object-cover" />
+              ) : (
+                <div class="m-3 mb-0 flex aspect-[4/5] flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed border-kraft-deep text-ink-soft">
+                  <Icon name="user" class="size-10" />
+                  <span class="text-sm">Ảnh chân dung (tỉ lệ 4:5)</span>
+                  {lawyer.photo && <span class="px-4 text-center text-xs text-seal">Không tìm thấy static/img/luat-su/{lawyer.photo}</span>}
+                </div>
+              )}
+              <div class="flex grow flex-col p-6">
+                <h3 class="text-xl font-medium"><Slot value={lawyer.name} /></h3>
+                <p class="mt-1 text-ink-soft"><Slot value={lawyer.title} /></p>
+
+                <dl class="mt-5 grid gap-3 border-t border-line pt-5 text-[0.95rem]">
+                  <div class="flex flex-wrap justify-between gap-x-4">
+                    <dt class="text-ink-soft">Kinh nghiệm</dt>
+                    <dd class="font-medium tabular-nums"><Slot value={lawyer.yearsOfExperience} /> năm</dd>
+                  </div>
+                  <div class="flex flex-wrap justify-between gap-x-4">
+                    <dt class="text-ink-soft">Chứng chỉ hành nghề số</dt>
+                    <dd class="font-medium tabular-nums"><Slot value={lawyer.certificateNo} /></dd>
+                  </div>
+                  <div>
+                    <dt class="text-ink-soft">Lĩnh vực</dt>
+                    <dd class="mt-1">
+                      {lawyer.practiceAreas.map((area, i) => (
+                        <>{i > 0 && ', '}<Slot value={area} /></>
+                      ))}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt class="text-ink-soft">Bằng cấp</dt>
+                    <dd>
+                      <ul class="mt-1 grid gap-1.5">
+                        {lawyer.education.map((item) => (
+                          <li class="flex gap-2">
+                            <span class="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-seal" aria-hidden="true" />
+                            <span><Slot value={item} /></span>
+                          </li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@import "@fontsource-variable/literata";
+@import "@fontsource/be-vietnam-pro/400.css";
+@import "@fontsource/be-vietnam-pro/500.css";
+@import "@fontsource/be-vietnam-pro/600.css";
+
+/* World: the case dossier. Paper, kraft folder covers, ink, and one red seal. */
+@theme {
+  --color-paper: oklch(0.985 0.005 85);
+  --color-kraft: oklch(0.935 0.022 80);
+  --color-kraft-deep: oklch(0.87 0.035 78);
+  --color-ink: oklch(0.27 0.012 60);
+  --color-ink-soft: oklch(0.45 0.014 60);
+  --color-ink-on-dark: oklch(0.86 0.02 80);
+  --color-seal: oklch(0.5 0.17 27);
+  --color-seal-deep: oklch(0.42 0.15 27);
+  --color-line: oklch(0.86 0.018 78);
+
+  --font-display: "Literata Variable", Georgia, serif;
+  --font-sans: "Be Vietnam Pro", system-ui, sans-serif;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-seal);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-seal);
+    outline-offset: 3px;
+  }
+  a {
+    text-underline-offset: 0.2em;
+  }
+  input, select, textarea {
+    caret-color: var(--color-seal);
+  }
+  html {
+    scrollbar-color: var(--color-kraft-deep) var(--color-paper);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-[0.95rem] font-medium transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60;
+  transition-timing-function: var(--ease-out-soft);
+}
+@utility btn-seal {
+  @apply bg-seal text-paper hover:bg-seal-deep active:bg-seal-deep;
+}
+@utility btn-ink {
+  @apply bg-ink text-paper hover:bg-ink-soft;
+}
+@utility btn-ghost-light {
+  @apply border border-paper/50 text-paper hover:bg-paper/10;
+}
+@utility btn-ghost {
+  @apply border border-ink/25 text-ink hover:bg-kraft;
+}
+/* Content the firm still has to supply, written as "[...]" in src/data. */
+@utility ph-slot {
+  @apply rounded-sm bg-seal/15 px-1 outline-1 outline-seal/70 outline-dashed;
+}
+@utility section-title {
+  @apply text-3xl font-medium md:text-[2.6rem];
+}

@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import Slot from './Slot.astro';
+import { site, telHref } from '../data/site';
+---
+
+<section aria-label="Điểm mạnh" class="grid sm:grid-cols-2 lg:grid-cols-4">
+  <div class="border-b border-line bg-paper px-6 py-9 lg:border-r lg:border-b-0">
+    <Icon name="clock" class="size-6 text-seal" />
+    <h2 class="mt-5 text-xl font-medium">Hơn <Slot value={site.yearsOfExperience} /> năm hành nghề</h2>
+    <p class="mt-2 text-ink-soft">Kinh nghiệm tư vấn và tranh tụng cho cả doanh nghiệp lẫn cá nhân.</p>
+  </div>
+  <div class="border-b border-line bg-kraft px-6 py-9 lg:border-b-0">
+    <Icon name="shield" class="size-6 text-seal" />
+    <h2 class="mt-5 text-xl font-medium">Bảo mật thông tin vụ việc</h2>
+    <p class="mt-2 text-ink-soft">Mọi điều bạn chia sẻ với luật sư được giữ kín theo <strong> nghĩa vụ bảo mật nghề nghiệp. </strong></p>
+  </div>
+  <div class="border-b border-line bg-paper px-6 py-9 sm:border-b-0 lg:border-r">
+    <Icon name="message" class="size-6 text-seal" />
+    <h2 class="mt-5 text-xl font-medium">Tư vấn ban đầu miễn phí</h2>
+    <p class="mt-2 text-ink-soft">Trao đổi để xác định vấn đề và hướng xử lý trước khi bạn quyết định thuê luật sư.</p>
+  </div>
+  <div class="bg-ink px-6 py-9 text-paper">
+    <Icon name="phone" class="size-6 text-kraft-deep" />
+    <h2 class="mt-5 text-xl font-medium">Cần gặp luật sư sớm?</h2>
+    <p class="mt-2 text-ink-on-dark">
+      Gọi hotline <a href={telHref(site.hotline)} class="font-semibold text-paper underline"><Slot value={site.hotline} /></a> để
+      đặt lịch hẹn với luật sư.
+    </p>
+    <a href="#lien-he" class="mt-4 inline-flex items-center gap-1.5 font-medium text-paper no-underline hover:underline">
+      Đặt lịch hẹn
+      <Icon name="arrow-right" class="size-4" />
+    </a>
+  </div>
+</section>

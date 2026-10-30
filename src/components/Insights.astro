@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+import { formatDate, getPublishedPosts } from '../lib/blog';
+
+const posts = (await getPublishedPosts()).slice(0, 3);
+---
+
+<section id="kien-thuc" class="border-t border-line bg-paper px-4 py-20 md:px-8 md:py-28">
+  <div class="mx-auto max-w-6xl">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="max-w-2xl">
+        <h2 class="section-title">Kiến thức pháp lý</h2>
+        <p class="mt-4 text-[1.05rem] text-ink-soft">Quy định mới và những lưu ý pháp lý thường gặp, viết bởi luật sư.</p>
+      </div>
+      {
+        posts.length > 0 && (
+          <a href="/kien-thuc/" class="btn btn-ghost">
+            Xem tất cả bài viết
+            <Icon name="arrow-right" class="size-4" />
+          </a>
+        )
+      }
+    </div>
+
+    {
+      posts.length > 0 ? (
+        <ul class="mt-12 grid gap-6 md:grid-cols-3">
+          {posts.map((post) => (
+            <li class="group relative flex flex-col rounded-lg border border-line p-6 transition-colors duration-200 hover:bg-kraft">
+              <time datetime={post.data.pubDate.toISOString()} class="text-sm text-ink-soft tabular-nums">
+                {formatDate(post.data.pubDate)}
+                {post.data.draft && <span class="ml-2 rounded-sm bg-seal px-1.5 py-0.5 text-xs text-paper">Bản nháp</span>}
+              </time>
+              <h3 class="mt-3 text-xl font-medium">
+                <a href={`/kien-thuc/${post.id}/`} class="no-underline after:absolute after:inset-0 group-hover:underline">
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="mt-3 text-ink-soft">{post.data.description}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="mt-12 rounded-lg border border-dashed border-kraft-deep p-8 text-center text-ink-soft">
+          Bài viết đang được luật sư biên soạn và sẽ sớm được đăng tại đây.
+        </p>
+      )
+    }
+  </div>
+</section>
