@@ -16,10 +16,10 @@ export interface Lawyer {
 export const lawyers: Lawyer[] = [
   {
     // Sample entry: copy the shape of `education` for the other lawyers.
-    name: '[Họ và tên luật sư]',
-    title: '[Chức danh, ví dụ: Luật sư điều hành]',
+    name: 'Phan Hồng Việt',
+    title: 'Luật sư - Giám đốc',
     photo: '',
-    yearsOfExperience: '[Số năm]',
+    yearsOfExperience: '19',
     certificateNo: '[Số chứng chỉ hành nghề]',
     practiceAreas: ['[Lĩnh vực chính]'],
     education: [
