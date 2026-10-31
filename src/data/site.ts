@@ -1,7 +1,7 @@
 export const site = {
   name: 'Công ty Luật LVT Lawyers',
   shortName: 'Luật LVT Lawyers',
-  slogan: 'Giải pháp pháp lý vững chắc cho doanh nghiệp và cá nhân',
+  slogan: 'Giải quyết tranh chấp chuyên nghiệp',
   description:
     'Công ty Luật LVT tư vấn và tranh tụng về doanh nghiệp, sở hữu trí tuệ, đất đai, hình sự, dân sự – hôn nhân gia đình và thu hồi nợ.',
   yearsOfExperience: '23',

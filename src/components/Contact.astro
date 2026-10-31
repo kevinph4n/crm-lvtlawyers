@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Rosette from './Rosette.astro';
 import Slot from './Slot.astro';
 import { legalFieldOptions } from '../data/practice-areas';
 import { site, telHref } from '../data/site';
@@ -8,16 +9,17 @@ const fieldClass =
   'mt-1.5 block w-full rounded-md border border-line bg-paper px-3.5 py-3 text-base text-ink transition-colors duration-150 placeholder:text-ink-soft/70 hover:border-kraft-deep focus:border-seal focus:outline-none aria-[invalid=true]:border-seal';
 ---
 
-<section id="lien-he" class="bg-ink px-4 py-20 text-paper md:px-8 md:py-28">
+<section id="lien-he" class="relative isolate overflow-hidden bg-ink px-4 py-20 text-paper md:px-8 md:py-28">
+  <Rosette id="contact-rosette" class="pointer-events-none absolute -top-40 -right-48 -z-10 size-[32rem] text-ink-on-dark opacity-10 md:-top-56 md:-right-56 md:size-[46rem]" />
   <!-- Mobile order: intro, form, map. Desktop: intro and map on the left, form on the right. -->
   <div class="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-x-16">
     <div>
-      <h2 class="section-title">LIÊN HỆ ĐỂ ĐƯỢC TƯ VẤN MIỄN PHÍ</h2>
-      <p class="mt-4 max-w-[44ch] text-[1.05rem] text-ink-on-dark">
+      <h2 class="section-title" data-reveal="rise">LIÊN HỆ ĐỂ ĐƯỢC TƯ VẤN MIỄN PHÍ</h2>
+      <p class="mt-4 max-w-[44ch] text-[1.05rem] text-ink-on-dark" data-reveal style="--i: 1">
         Điền phiếu tiếp nhận hoặc liên hệ trực tiếp thông qua số Hotline. Luật sư phụ trách sẽ gọi lại để tư vấn ban đầu miễn phí.
       </p>
 
-      <ul class="mt-10 grid gap-5">
+      <ul class="mt-10 grid gap-5" data-reveal style="--i: 2">
         <li class="flex gap-4">
           <Icon name="map-pin" class="mt-0.5 size-5 shrink-0 text-kraft-deep" />
           <span><Slot value={site.address} /></span>
@@ -51,7 +53,7 @@ const fieldClass =
       </ul>
     </div>
 
-    <div class="relative self-start rounded-lg bg-paper p-6 text-ink shadow-[0_24px_48px_-24px_rgb(0_0_0/0.6)] md:p-9 lg:row-span-2">
+    <div data-reveal="slide" style="--i: 1" class="relative self-start rounded-lg bg-paper p-6 text-ink shadow-[0_24px_48px_-24px_rgb(5_10_30/0.7)] md:p-9 lg:row-span-2">
       <form id="lead-form" novalidate>
         <h3 class="text-2xl font-medium">Phiếu tiếp nhận yêu cầu tư vấn</h3>
         <p class="mt-2 text-ink-soft">Mục có dấu <span class="text-seal">*</span> là bắt buộc.</p>

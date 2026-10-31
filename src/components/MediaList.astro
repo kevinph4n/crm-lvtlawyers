@@ -1,0 +1,73 @@
+---
+// Compact rows: small photo on the left, text on the right. Shared by Activities and FeaturedCases.
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import Slot from './Slot.astro';
+
+export interface MediaItem {
+  image?: ImageMetadata;
+  alt: string;
+  title: string;
+  meta?: string;
+  description?: string;
+  // Shown in the empty photo box when a file name is set but not found.
+  missingPhoto?: string;
+}
+
+interface Props {
+  items: MediaItem[];
+  columns?: 1 | 2;
+  tone?: 'light' | 'dark';
+}
+
+const { items, columns = 2, tone = 'light' } = Astro.props;
+const dark = tone === 'dark';
+const sizes = columns === 1 ? '(min-width: 640px) 224px, 112px' : '(min-width: 640px) 176px, 112px';
+---
+
+<ul class:list={['mt-12 grid gap-x-12', columns === 2 && 'lg:grid-cols-2']}>
+  {
+    items.map((item, i) => (
+      <li
+        data-reveal
+        style={`--i: ${columns === 2 ? i % 2 : 0}`}
+        class:list={[
+          'grid grid-cols-[7rem_1fr] items-start gap-4 border-t py-6 sm:gap-6',
+          columns === 1 ? 'sm:grid-cols-[14rem_1fr]' : 'sm:grid-cols-[11rem_1fr]',
+          dark ? 'border-ink-on-dark/20' : 'border-line',
+        ]}
+      >
+        <div data-reveal="wipe" style={`--i: ${(columns === 2 ? i % 2 : 0) + 1}`}>
+          {item.image ? (
+            <Image src={item.image} alt={item.alt} widths={[240, 480]} sizes={sizes} class="aspect-[4/3] w-full rounded-md object-cover" />
+          ) : (
+            <div
+              class:list={[
+                'flex aspect-[4/3] flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed p-2 text-center text-xs',
+                dark ? 'border-ink-on-dark/40 text-ink-on-dark' : 'border-kraft-deep text-ink-soft',
+              ]}
+            >
+              <Icon name="image" class="size-6" />
+              <span>{item.missingPhoto ? `Không tìm thấy ${item.missingPhoto}` : 'Ảnh (tỉ lệ 4:3)'}</span>
+            </div>
+          )}
+        </div>
+        <div>
+          <h3 class="text-[1.1rem] leading-snug font-medium sm:text-xl">
+            <Slot value={item.title} />
+          </h3>
+          {item.meta && (
+            <p class:list={['mt-1 text-sm', dark ? 'text-ink-on-dark' : 'text-ink-soft']}>
+              <Slot value={item.meta} />
+            </p>
+          )}
+          {item.description && (
+            <p class:list={['mt-2 text-[0.95rem] sm:text-base', dark ? 'text-ink-on-dark' : 'text-ink-soft']}>
+              <Slot value={item.description} />
+            </p>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ul>

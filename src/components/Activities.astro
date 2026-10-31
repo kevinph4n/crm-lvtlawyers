@@ -1,13 +1,13 @@
 ---
-import { Image } from 'astro:assets';
-import Slot from './Slot.astro';
+import MediaList, { type MediaItem } from './MediaList.astro';
 import mockTrialDrugs from '../../static/img/congtyluatlvt_2.jpg';
 import mockTrialTraffic from '../../static/img/congtyluatlvt_3.jpg';
 import ceremony from '../../static/img/congtyluatlvt_6.jpg';
 import arbitrationClass from '../../static/img/congtyluatlvt_7.jpg';
+import { isPlaceholder } from '../data/site';
 
 // Captions only state what is readable on the banners in each photo.
-const items = [
+const activities = [
   {
     image: mockTrialDrugs,
     caption: 'Phiên tòa giả định chuyên đề “Phòng chống ma túy và tác hại thuốc lá”',
@@ -29,36 +29,20 @@ const items = [
     meta: '[Địa điểm, ngày]',
   },
 ];
+
+const items: MediaItem[] = activities.map((activity) => ({
+  image: activity.image,
+  alt: isPlaceholder(activity.caption) ? 'Hoạt động của Công ty Luật LVT' : activity.caption,
+  title: activity.caption,
+  meta: activity.meta,
+}));
 ---
 
 <section aria-labelledby="hoat-dong-title" class="bg-paper px-4 py-20 md:px-8 md:py-28">
   <div class="mx-auto max-w-6xl">
     <div class="max-w-2xl">
-      <h2 id="hoat-dong-title" class="section-title">CÁC HOẠT ĐỘNG PHỔ BIẾN PHÁP LUẬT</h2>
-      <p class="mt-4 text-[1.05rem] text-ink-soft">
-      </p>
+      <h2 id="hoat-dong-title" class="section-title" data-reveal="rise">CÁC HOẠT ĐỘNG PHỔ BIẾN PHÁP LUẬT</h2>
     </div>
-
-    <ul class="mt-12 grid gap-6 sm:grid-cols-2">
-      {
-        items.map((item) => (
-          <li>
-            <figure>
-              <Image
-                src={item.image}
-                alt={item.caption.startsWith('[') ? 'Hoạt động của Công ty Luật LVT' : item.caption}
-                widths={[480, 760]}
-                sizes="(min-width: 640px) 50vw, 100vw"
-                class="aspect-[3/2] w-full rounded-lg object-cover"
-              />
-              <figcaption class="mt-3">
-                <span class="block font-medium"><Slot value={item.caption} /></span>
-                <span class="mt-0.5 block text-sm text-ink-soft"><Slot value={item.meta} /></span>
-              </figcaption>
-            </figure>
-          </li>
-        ))
-      }
-    </ul>
+    <MediaList items={items} />
   </div>
 </section>

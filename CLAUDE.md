@@ -25,6 +25,7 @@ All firm content is data, not markup:
 - `src/data/site.ts` – firm name, slogan, hotline, email, address, Zalo OA link, Google Maps embed URL.
 - `src/data/practice-areas.ts` – practice areas; drives both the homepage section and the form select.
 - `src/data/lawyers.ts` – Team section, one object per lawyer card. Photos go in `static/img/luat-su/` and are referenced by file name (resolved with `import.meta.glob` in `Team.astro`).
+- `src/data/featured-cases.ts` – "Dự án tiêu biểu" (title + description, no lawyer). Photos go in `static/img/du-an/`, referenced by file name like lawyers. Publish only case details the firm has approved.
 - `src/content/blog/*.md` – "Kiến thức pháp lý" posts (content collection in `src/content.config.ts`). File name = URL slug under `/kien-thuc/`. `draft: true` posts appear only in dev.
 
 Values written as `[...]` are placeholders; `Slot.astro` renders them with a dashed red outline so they are obvious on the page. Never replace a placeholder with a plausible-looking invented value.

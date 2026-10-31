@@ -14,17 +14,17 @@ const photos = new Map(Object.entries(photoModules).map(([path, mod]) => [path.s
 <section id="luat-su" class="bg-kraft px-4 py-20 md:px-8 md:py-28">
   <div class="mx-auto max-w-6xl">
     <div class="max-w-2xl">
-      <h2 class="section-title">ĐỘI NGŨ LUẬT SƯ</h2>
+      <h2 class="section-title" data-reveal="rise">ĐỘI NGŨ LUẬT SƯ</h2>
       <p class="mt-4 text-[1.05rem] text-ink-soft">
       </p>
     </div>
 
     <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {
-        lawyers.map((lawyer) => {
+        lawyers.map((lawyer, i) => {
           const photo = lawyer.photo ? photos.get(lawyer.photo) : undefined;
           return (
-            <li class="flex flex-col overflow-hidden rounded-lg bg-paper">
+            <li data-reveal style={`--i: ${i % 3}`} class="flex flex-col overflow-hidden rounded-lg bg-paper">
               {photo ? (
                 <Image src={photo} alt={`Chân dung ${lawyer.name}`} widths={[400, 640]} sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" class="aspect-[4/5] w-full object-cover" />
               ) : (

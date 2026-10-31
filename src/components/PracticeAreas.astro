@@ -6,16 +6,17 @@ import { practiceAreas } from '../data/practice-areas';
 <section id="linh-vuc" class="bg-paper px-4 py-20 md:px-8 md:py-28">
   <div class="mx-auto max-w-6xl">
     <div class="max-w-2xl">
-      <h2 class="section-title">Lĩnh vực hành nghề</h2>
-      <p class="mt-4 text-[1.05rem] text-ink-soft">
+      <h2 class="section-title" data-reveal="rise">Lĩnh vực hành nghề</h2>
+      <p class="mt-4 text-[1.05rem] text-ink-soft" data-reveal style="--i: 1">
         Chọn đúng hồ sơ giống vấn đề của bạn, luật sư phụ trách lĩnh vực đó sẽ liên hệ lại.
       </p>
     </div>
 
     <ul class="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
       {
-        practiceAreas.map((area) => (
-          <li class="group relative flex flex-col rounded-lg rounded-tl-none bg-kraft p-6 pt-7 transition-colors duration-200 hover:bg-kraft-deep/60">
+        practiceAreas.map((area, i) => (
+          <li data-reveal style={`--i: ${i % 3}`} class="flex">
+          <div class="group relative flex grow flex-col rounded-lg rounded-tl-none bg-kraft p-6 pt-7 transition-colors duration-200 hover:bg-kraft-deep/60">
             <span class="absolute -top-7 left-0 flex h-7 items-center gap-1.5 rounded-t-lg bg-kraft px-4 text-sm font-medium text-ink-soft transition-colors duration-200 group-hover:bg-kraft-deep/60">
               <Icon name="folder" class="size-3.5" />
               Hồ sơ
@@ -30,6 +31,7 @@ import { practiceAreas } from '../data/practice-areas';
               Hỏi luật sư về vấn đề này
               <Icon name="arrow-right" class="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </a>
+          </div>
           </li>
         ))
       }

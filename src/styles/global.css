@@ -4,14 +4,14 @@
 @import "@fontsource/be-vietnam-pro/500.css";
 @import "@fontsource/be-vietnam-pro/600.css";
 
-/* World: the case dossier. Paper, kraft folder covers, ink, and one red seal. */
+/* World: the case dossier. Paper, kraft folder covers, navy ink, and one red seal. */
 @theme {
-  --color-paper: oklch(0.985 0.005 85);
-  --color-kraft: oklch(0.935 0.022 80);
-  --color-kraft-deep: oklch(0.87 0.035 78);
-  --color-ink: oklch(0.27 0.012 60);
-  --color-ink-soft: oklch(0.45 0.014 60);
-  --color-ink-on-dark: oklch(0.86 0.02 80);
+  --color-paper: oklch(0.985 0.004 85);
+  --color-kraft: oklch(0.935 0.02 80);
+  --color-kraft-deep: oklch(0.87 0.032 78);
+  --color-ink: oklch(0.26 0.065 258);
+  --color-ink-soft: oklch(0.44 0.05 256);
+  --color-ink-on-dark: oklch(0.87 0.03 250);
   --color-seal: oklch(0.5 0.17 27);
   --color-seal-deep: oklch(0.42 0.15 27);
   --color-line: oklch(0.86 0.018 78);
@@ -57,6 +57,41 @@
   }
   html {
     scrollbar-color: var(--color-kraft-deep) var(--color-paper);
+  }
+  /* Scroll reveals: armed only when JS runs (html.js, set in Base.astro) and motion is allowed.
+     Variants: default fades up, "rise" uncovers a heading from its baseline, "wipe" uncovers
+     an image left to right, "slide" comes in from the right. Stagger with style="--i: n". */
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] {
+      transition:
+        opacity 700ms var(--ease-out-soft),
+        transform 700ms var(--ease-out-soft),
+        clip-path 900ms var(--ease-out-soft);
+      transition-delay: calc(var(--i, 0) * 90ms);
+    }
+    .js [data-reveal]:not(.is-in) {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    .js [data-reveal='rise'] {
+      clip-path: inset(-1em -1em -1em -1em);
+    }
+    .js [data-reveal='rise']:not(.is-in) {
+      opacity: 1;
+      transform: translateY(0.5em);
+      clip-path: inset(100% -1em -1em -1em);
+    }
+    .js [data-reveal='wipe'] {
+      clip-path: inset(0 0 0 0);
+    }
+    .js [data-reveal='wipe']:not(.is-in) {
+      opacity: 1;
+      transform: none;
+      clip-path: inset(0 100% 0 0);
+    }
+    .js [data-reveal='slide']:not(.is-in) {
+      transform: translateX(2rem);
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }

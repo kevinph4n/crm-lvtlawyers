@@ -1,0 +1,28 @@
+---
+import MediaList, { type MediaItem } from './MediaList.astro';
+import { featuredCases } from '../data/featured-cases';
+import { isPlaceholder } from '../data/site';
+
+// Every image in static/img/du-an/, keyed by file name, so data only needs `photo: 'name.jpg'`.
+const photoModules = import.meta.glob<{ default: ImageMetadata }>('/static/img/du-an/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+});
+const photos = new Map(Object.entries(photoModules).map(([path, mod]) => [path.split('/').pop(), mod.default]));
+
+const items: MediaItem[] = featuredCases.map((item) => ({
+  image: item.photo ? photos.get(item.photo) : undefined,
+  alt: isPlaceholder(item.title) ? 'Dự án tiêu biểu của Công ty Luật LVT' : item.title,
+  title: item.title,
+  description: item.description,
+  missingPhoto: item.photo && !photos.has(item.photo) ? `static/img/du-an/${item.photo}` : undefined,
+}));
+---
+
+<section id="du-an" aria-labelledby="du-an-title" class="bg-ink px-4 py-20 text-paper md:px-8 md:py-28">
+  <div class="mx-auto max-w-6xl">
+    <h2 id="du-an-title" class="section-title" data-reveal="rise">DỰ ÁN TIÊU BIỂU</h2>
+    <div class="max-w-4xl">
+      <MediaList items={items} columns={1} tone="dark" />
+    </div>
+  </div>
+</section>

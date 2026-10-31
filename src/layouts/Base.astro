@@ -30,7 +30,40 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
     <meta property="og:locale" content="vi_VN" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta name="theme-color" content="#3a3430" />
+    <meta name="theme-color" content="#14213d" />
+    <script is:inline>
+      // Inline so the "js" class and the observer that clears it can never get out of step:
+      // if this script does not run, [data-reveal] content simply stays visible.
+      document.documentElement.classList.add('js');
+      addEventListener('DOMContentLoaded', () => {
+        const targets = document.querySelectorAll('[data-reveal]');
+        if (!('IntersectionObserver' in window)) {
+          targets.forEach((el) => el.classList.add('is-in'));
+          return;
+        }
+        // Chrome never reports a fully clipped element as intersecting, so "rise" and "wipe"
+        // targets are revealed through their parent instead.
+        const watched = new Map();
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              watched.get(entry.target).forEach((el) => el.classList.add('is-in'));
+              observer.unobserve(entry.target);
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px' },
+        );
+        targets.forEach((el) => {
+          const anchor = el.matches('[data-reveal="rise"], [data-reveal="wipe"]') ? el.parentElement : el;
+          if (!watched.has(anchor)) {
+            watched.set(anchor, []);
+            observer.observe(anchor);
+          }
+          watched.get(anchor).push(el);
+        });
+      });
+    </script>
   </head>
   <body class="pb-16 md:pb-0">
     <a href="#noi-dung" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 btn btn-ink">

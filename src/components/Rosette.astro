@@ -1,0 +1,60 @@
+---
+// Guilloche rosette: the security-print pattern on certificates and stamped legal papers.
+// One wave ring is computed per band; the band is that ring repeated at small rotations,
+// so the markup stays small. Color comes from `currentColor`, size from the class.
+interface Props {
+  // Unique per page: the rings are reused with <use href="#id-...">.
+  id: string;
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+
+function waveRing(radius: number, amplitude: number, waves: number, steps = 360) {
+  const points = Array.from({ length: steps }, (_, i) => {
+    const t = (i / steps) * Math.PI * 2;
+    const r = radius + amplitude * Math.sin(waves * t);
+    return `${(200 + r * Math.cos(t)).toFixed(1)} ${(200 + r * Math.sin(t)).toFixed(1)}`;
+  });
+  return `M${points.join('L')}Z`;
+}
+
+const range = (n: number) => Array.from({ length: n }, (_, i) => i);
+const bands = [
+  { key: 'outer', d: waveRing(168, 16, 24), copies: 8, step: 360 / 24 / 8 },
+  { key: 'inner', d: waveRing(110, 12, 16), copies: 6, step: 360 / 16 / 6 },
+];
+---
+
+<svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-width="0.8" aria-hidden="true" class:list={['rosette', className]}>
+  <defs>
+    {bands.map((band) => <path id={`${id}-${band.key}`} d={band.d} vector-effect="non-scaling-stroke" />)}
+  </defs>
+  <circle cx="200" cy="200" r="194" vector-effect="non-scaling-stroke" />
+  <circle cx="200" cy="200" r="190" vector-effect="non-scaling-stroke" />
+  <circle cx="200" cy="200" r="141" vector-effect="non-scaling-stroke" />
+  {
+    bands.map((band) =>
+      range(band.copies).map((i) => <use href={`#${id}-${band.key}`} transform={`rotate(${i * band.step} 200 200)`} />),
+    )
+  }
+  <circle cx="200" cy="200" r="90" vector-effect="non-scaling-stroke" />
+  {
+    range(12).map((i) => (
+      <ellipse cx="200" cy="200" rx="78" ry="24" transform={`rotate(${i * 15} 200 200)`} vector-effect="non-scaling-stroke" />
+    ))
+  }
+</svg>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .rosette {
+      animation: rosette-turn 240s linear infinite;
+    }
+  }
+  @keyframes rosette-turn {
+    to {
+      rotate: 360deg;
+    }
+  }
+</style>

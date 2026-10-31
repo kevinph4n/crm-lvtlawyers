@@ -7,27 +7,41 @@
 
 ## Design system (implemented in src/styles/global.css)
 - Mode: Persuade (landing page whose job is to produce leads).
-- World: the case dossier (hồ sơ vụ án). Paper, kraft folder covers, ink, one red seal.
+- World: the case dossier (hồ sơ vụ án). Paper, kraft folder covers, navy ink, one red seal.
   Practice areas are kraft folders with a "Hồ sơ" tab; the lead form is an intake slip
   ("Phiếu tiếp nhận") that gets an "ĐÃ TIẾP NHẬN" seal stamp on success (the one authored motion).
 - Scene: a client on a phone in daylight, right after a legal problem came up. Light theme only.
-- Color, restrained: tinted warm neutrals + one accent. Tokens (OKLCH): paper, kraft, kraft-deep,
+- Color: navy is the main tone (2026-10-31, client request). Warm paper/kraft neutrals, navy `ink`
+  (hue 258) for text and dark regions, one red accent. Tokens (OKLCH): paper, kraft, kraft-deep,
   ink, ink-soft, ink-on-dark, line, seal (accent, CTAs only), seal-deep (hover).
-  Ink owns whole regions (strength card, contact section, footer), following design-02.
+  Ink owns whole regions (hero overlay, strength card, "Dự án tiêu biểu", contact, footer).
+- Signature visual: a guilloche rosette (`Rosette.astro`, the security-print pattern on certificates
+  and stamped papers) as a faint watermark in the hero, the strength "call us" card and the contact
+  section; it turns once every 4 minutes.
 - Type: Literata (display, h1-h3; legal-code book face, Vietnamese subset) + Be Vietnam Pro
   (body/UI, 400/500/600, drawn for Vietnamese diacritics). Body 16px, articles at 68ch.
 - Depth: soft offset shadows only (floating header, form card), no borders-as-elevation.
 - Placeholders: any data value written as "[...]" renders with a dashed red outline (`ph-slot`)
   so missing firm content is visible during review. None may remain at launch.
 - First viewport: full-bleed courtroom photo (congtyluatlvt_1), white floating nav bar,
-  slogan, two CTAs; then a 4-cell strength strip ending in an ink "call us" cell (design-02 pattern).
+  slogan, one red CTA ("Nhận tư vấn miễn phí") plus a hotline link; then a 4-cell strength strip
+  ending in an ink "call us" cell (design-02 pattern).
+- Motion: hero content enters in sequence over a slow photo zoom-out. Scroll reveals via
+  `data-reveal` (script in `Base.astro`, CSS in `global.css`): headings rise from their baseline,
+  photos wipe in left to right, the form card slides in, cards fade up with a stagger. All of it is
+  off under `prefers-reduced-motion`, and content stays visible if JS does not run.
+- Featured cases and activities share `MediaList.astro`: small 4:3 photo left, text right.
 
 ## Content
 - Landing page for:
 ### Trang chủ (Homepage):
-- Hero Section: Slogan mạnh mẽ thể hiện sự uy tín, chuyên nghiệp (ví dụ: "Giải pháp pháp lý vững chắc cho doanh nghiệp và cá nhân").
+- Hero Section: Slogan mạnh mẽ thể hiện sự uy tín, chuyên nghiệp: "Giải quyết tranh chấp chuyên nghiệp".
 
-- CTA (Kêu gọi hành động) nổi bật: Nút "Nhận tư vấn miễn phí", "Đặt lịch hẹn ngay".
+- CTA (Kêu gọi hành động) nổi bật: Nút "Nhận tư vấn miễn phí" (nút "Đặt lịch hẹn ngay" đã bỏ vì trùng chức năng).
+
+- Dự án tiêu biểu: ảnh nhỏ bên trái, mô tả vụ án bên phải (không ghi luật sư phụ trách). Dữ liệu trong `src/data/featured-cases.ts`.
+
+- Các hoạt động phổ biến pháp luật: cùng kiểu trình bày với Dự án tiêu biểu.
 
 - Thống kê/Điểm mạnh: Số năm kinh nghiệm
 
